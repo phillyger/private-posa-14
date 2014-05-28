@@ -70,10 +70,11 @@ class SimpleAtomicLong
         
         try {
         	mValue--;
-        	value = this.get();
         } finally {
         	mRWLock.writeLock().unlock();
         }
+        
+        value = this.get();
 
         return value;
     }
@@ -89,9 +90,11 @@ class SimpleAtomicLong
 
         // TODO -- you fill in here
         
+        value = this.get();
+        
+        mRWLock.writeLock().lock();
+        
         try {
-        	value = this.get();
-        	mRWLock.writeLock().lock();
         	mValue++;
         } finally {
         	mRWLock.writeLock().unlock();
@@ -110,10 +113,11 @@ class SimpleAtomicLong
         long value = 0;
 
         // TODO -- you fill in here
+        value = this.get();
         
-        try {
-        	value = this.get();
-        	mRWLock.writeLock().lock();
+        mRWLock.writeLock().lock();
+        
+        try {	
         	mValue--;
         } finally {
         	mRWLock.writeLock().unlock();
