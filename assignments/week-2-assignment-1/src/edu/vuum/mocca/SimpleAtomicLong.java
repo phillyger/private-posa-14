@@ -1,7 +1,6 @@
 package edu.vuum.mocca;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.concurrent.locks.Lock;
 
 /**
  * @class SimpleAtomicLong
@@ -70,11 +69,12 @@ class SimpleAtomicLong
         
         try {
         	mValue--;
+        	value = mValue;
         } finally {
         	mRWLock.writeLock().unlock();
         }
         
-        value = this.get();
+        
 
         return value;
     }
@@ -88,14 +88,13 @@ class SimpleAtomicLong
     {
         long value = 0;
 
-        // TODO -- you fill in here
-        
-        value = this.get();
-        
+        // TODO -- you fill in here        
         mRWLock.writeLock().lock();
         
         try {
+        	value = mValue;
         	mValue++;
+        	
         } finally {
         	mRWLock.writeLock().unlock();
         }
@@ -112,12 +111,11 @@ class SimpleAtomicLong
     {
         long value = 0;
 
-        // TODO -- you fill in here
-        value = this.get();
-        
+        // TODO -- you fill in here 
         mRWLock.writeLock().lock();
         
         try {	
+        	value = mValue;
         	mValue--;
         } finally {
         	mRWLock.writeLock().unlock();
@@ -140,11 +138,10 @@ class SimpleAtomicLong
         
         try {
         	mValue++;
+        	value = mValue;
         } finally {
         	mRWLock.writeLock().unlock();
         }
-
-        value = this.get();
         
         return value;
     }
