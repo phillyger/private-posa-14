@@ -43,7 +43,7 @@ public class SimpleAtomicLongMultithreadedTest {
     /**
      * An instance of our implementation of SimpleAtomicLong.
      */
-    static SimpleAtomicLong mCounter;
+    volatile static SimpleAtomicLong mCounter;
     
     /**
      * Runnable commands that use the mCounter methods

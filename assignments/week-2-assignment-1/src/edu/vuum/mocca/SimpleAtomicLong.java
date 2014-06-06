@@ -22,7 +22,7 @@ class SimpleAtomicLong
 
     // TODO -- you fill in here by replacing the null with an
     // initialization of ReentrantReadWriteLock.
-    private ReentrantReadWriteLock mRWLock = new ReentrantReadWriteLock();
+    private final ReentrantReadWriteLock mRWLock = new ReentrantReadWriteLock();
     
 
     /**
@@ -68,8 +68,7 @@ class SimpleAtomicLong
         mRWLock.writeLock().lock();
         
         try {
-        	mValue--;
-        	value = mValue;
+        	value = --mValue;
         } finally {
         	mRWLock.writeLock().unlock();
         }
@@ -92,8 +91,7 @@ class SimpleAtomicLong
         mRWLock.writeLock().lock();
         
         try {
-        	value = mValue;
-        	mValue++;
+        	value = mValue++;
         	
         } finally {
         	mRWLock.writeLock().unlock();
@@ -115,8 +113,7 @@ class SimpleAtomicLong
         mRWLock.writeLock().lock();
         
         try {	
-        	value = mValue;
-        	mValue--;
+        	value = mValue--;
         } finally {
         	mRWLock.writeLock().unlock();
         }
@@ -131,14 +128,15 @@ class SimpleAtomicLong
      */
     public long incrementAndGet()
     {
-        long value = 0;
-
+        
+    	long value = 0;
+    	
         // TODO -- you fill in here
         mRWLock.writeLock().lock();
         
+        
         try {
-        	mValue++;
-        	value = mValue;
+        	value = ++mValue;
         } finally {
         	mRWLock.writeLock().unlock();
         }
