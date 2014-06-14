@@ -58,8 +58,7 @@ public class PingPongRight {
          * two data members.
          */
         // TODO - You fill in here.
-//        private static SimpleSemaphore[] mSimpleSemaphores = new SimpleSemaphore[2];
-        SimpleSemaphore[] mSimpleSemaphores = new SimpleSemaphore[2];
+        private SimpleSemaphore[] mSimpleSemaphores = new SimpleSemaphore[2];
 
         /**
          * Constructor initializes the data member(s).
@@ -169,4 +168,3 @@ public class PingPongRight {
                 mMaxIterations);
     }
 }
-

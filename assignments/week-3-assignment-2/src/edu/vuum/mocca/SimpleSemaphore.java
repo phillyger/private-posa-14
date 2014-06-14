@@ -18,7 +18,7 @@ public class SimpleSemaphore {
      * Define a ReentrantLock to protect the critical section.
      */
     // TODO - you fill in here
-	private final Lock mLock;
+	private final ReentrantLock mLock;
 	
     /**
      * Define a Condition that waits while the number of permits is 0.
@@ -52,10 +52,8 @@ public class SimpleSemaphore {
 		mLock.lockInterruptibly();
 
 		try {
-			if (Thread.interrupted())
-				throw new InterruptedException();
 
-			while (availablePermits() <= 0) {
+			while (mPermitsAvailable <= 0) {
 				mCondition.await();
 			}
 			--mPermitsAvailable;
@@ -73,8 +71,9 @@ public class SimpleSemaphore {
     public void acquireUninterruptibly() {
         // TODO - you fill in here.
     	mLock.lock();
+    	
     	try {
-    		while (availablePermits() <= 0) {
+    		while (mPermitsAvailable <= 0) {
     			mCondition.awaitUninterruptibly();
     		}
     		--mPermitsAvailable;
@@ -92,7 +91,8 @@ public class SimpleSemaphore {
     	
     	try {
     		++mPermitsAvailable;
-    		mCondition.signal();
+            if (mPermitsAvailable > 0)
+    		  mCondition.signal();
     	} finally {
     		mLock.unlock();
     	}

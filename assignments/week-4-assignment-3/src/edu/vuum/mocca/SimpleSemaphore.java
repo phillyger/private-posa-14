@@ -1,22 +1,24 @@
 package edu.vuum.mocca;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
+
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.Condition;
 
 /**
  * @class SimpleSemaphore
  * 
- * @brief This class provides a simple counting semaphore implementation using
- *        Java a ReentrantLock and a ConditionObject (which is accessed via a
- *        Condition). It must implement both "Fair" and "NonFair" semaphore
- *        semantics, just liked Java Semaphores.
+ * @brief This class provides a simple counting semaphore
+ *        implementation using Java a ReentrantLock and a
+ *        ConditionObject (which is accessed via a Condition). It must
+ *        implement both "Fair" and "NonFair" semaphore semantics,
+ *        just liked Java Semaphores.
  */
 public class SimpleSemaphore {
     /**
      * Define a ReentrantLock to protect the critical section.
      */
     // TODO - you fill in here
-	private final Lock mLock;
+	private final ReentrantLock mLock;
 	
     /**
      * Define a Condition that waits while the number of permits is 0.
@@ -50,10 +52,8 @@ public class SimpleSemaphore {
 		mLock.lockInterruptibly();
 
 		try {
-			if (Thread.interrupted())
-				throw new InterruptedException();
 
-			while (availablePermits() <= 0) {
+			while (mPermitsAvailable <= 0) {
 				mCondition.await();
 			}
 			--mPermitsAvailable;
@@ -71,8 +71,9 @@ public class SimpleSemaphore {
     public void acquireUninterruptibly() {
         // TODO - you fill in here.
     	mLock.lock();
+    	
     	try {
-    		while (availablePermits() <= 0) {
+    		while (mPermitsAvailable <= 0) {
     			mCondition.awaitUninterruptibly();
     		}
     		--mPermitsAvailable;
@@ -90,7 +91,8 @@ public class SimpleSemaphore {
     	
     	try {
     		++mPermitsAvailable;
-    		mCondition.signal();
+            if (mPermitsAvailable > 0)
+    		  mCondition.signal();
     	} finally {
     		mLock.unlock();
     	}
