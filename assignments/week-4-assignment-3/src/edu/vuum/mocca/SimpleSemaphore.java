@@ -42,6 +42,11 @@ public class SimpleSemaphore {
     	mLock = new ReentrantLock(fair);
     	mCondition = mLock.newCondition();
     }
+    
+    public SimpleSemaphore(int permits) {
+    	this(permits, false);
+    }
+    
 
     /**
      * Acquire one permit from the semaphore in a manner that can be

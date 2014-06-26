@@ -64,6 +64,7 @@ public class AndroidPlatformStrategy extends PlatformStrategy
 		Activity activity = mActivity.get();
 		if (activity != null) { // If activity is still there
 			activity.runOnUiThread(new Runnable() {
+				@Override
 				public void run() {
 					mTextViewOutput.append(outputString + "\n");
 				}
@@ -76,7 +77,23 @@ public class AndroidPlatformStrategy extends PlatformStrategy
     public void done()
     {	
         // TODO - You fill in here.
-    	mLatch.countDown();
+    	
+    	// Check if the Activity is still referenced.
+    	// If so, call countdown on UI thread
+		Activity activity = mActivity.get();
+		if (activity != null) { // If activity is still there
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					mLatch.countDown();
+				}
+			});
+		} else {
+			
+			// otherwise, call countdown on current thread.
+			mLatch.countDown();
+		}
+    	
     }
 
     /** Barrier that waits for all the game threads to finish. */
@@ -97,4 +114,5 @@ public class AndroidPlatformStrategy extends PlatformStrategy
     {
        Log.e(javaFile, errorMessage);
     }
+    
 }
