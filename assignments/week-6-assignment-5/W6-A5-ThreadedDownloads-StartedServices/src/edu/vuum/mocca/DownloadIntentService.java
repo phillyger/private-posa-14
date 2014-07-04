@@ -94,7 +94,8 @@ public class DownloadIntentService extends IntentService {
         // Messenger who's Bundle key is defined by DownloadUtils.MESSENGER_KEY
     	
     	Uri uri = intent.getData();
-    	Messenger messenger = (Messenger)intent.getParcelableExtra(DownloadUtils.MESSENGER_KEY);
+//    	Messenger messenger = (Messenger)intent.getParcelableExtra(DownloadUtils.MESSENGER_KEY);
+    	Messenger messenger = (Messenger)intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
     	DownloadUtils.downloadAndRespond(
     			DownloadIntentService.this, 
     			uri, 

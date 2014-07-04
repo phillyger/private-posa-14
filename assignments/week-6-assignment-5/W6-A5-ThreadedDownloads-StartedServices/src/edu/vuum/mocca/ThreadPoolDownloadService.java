@@ -105,7 +105,8 @@ public class ThreadPoolDownloadService extends Service {
 			public void run() {
 				// TODO Auto-generated method stub
 		    	Uri uri = intent.getData();
-		    	Messenger messenger = (Messenger)intent.getParcelableExtra(DownloadUtils.MESSENGER_KEY);
+//		    	Messenger messenger = (Messenger)intent.getParcelableExtra(DownloadUtils.MESSENGER_KEY);
+		    	Messenger messenger = (Messenger)intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
 		    	DownloadUtils.downloadAndRespond(
 		    			ThreadPoolDownloadService.this, 
 		    			uri, 
